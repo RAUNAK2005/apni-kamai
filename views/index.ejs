@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+<section class="apni-section hero-section">
+  <div class="hero-container">
+    <h1>Welcome to Apni Kamai</h1>
+    <p class="hero-subtitle">Your personal finance tracker to manage income, expenses, and goals</p>
+    <div class="apni-search-bar">
+      <input type="text" id="rancho-input" placeholder="Ask Rancho anything about finances...">
+      <button onclick="askRancho()" class="apni-btn">Ask</button>
+    </div>
+    <div id="rancho-response" class="apni-response"></div>
+  </div>
+</section>
+
+<section class="apni-section features-section">
+  <div class="container">
+    <h2 class="section-title">Key Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Income Tracking</h3>
+        <p>Record and categorize your income sources</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Expense Management</h3>
+        <p>Track your expenses and stay within budget</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Financial Goals</h3>
+        <p>Set and monitor progress towards your savings goals</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Visual Reports</h3>
+        <p>View your financial data with intuitive visualizations</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function askRancho() {
+    const input = document.getElementById('rancho-input').value;
+    if (!input) return;
+    
+    document.getElementById('rancho-response').innerHTML = 'Thinking...';
+    
+    fetch('/rancho', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: input })
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('rancho-response').innerHTML = data.reply;
+    })
+    .catch(err => {
+      document.getElementById('rancho-response').innerHTML = 'Sorry, I had trouble with that request.';
+    });
+  }
+</script>
+
+<%- include('partials/footer') %>

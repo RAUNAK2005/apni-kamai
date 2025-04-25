@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+<section class="apni-section">
+  <h2>Loan Calculator</h2>
+  <div class="apni-widget">
+    <input type="number" id="loan-amount" placeholder="Amount (₹)" class="apni-input">
+    <input type="number" id="interest-rate" placeholder="Rate (%)" class="apni-input">
+    <input type="number" id="loan-term" placeholder="Term (Years)" class="apni-input">
+    <button onclick="calculateLoan()" class="apni-btn">Calculate</button>
+    <p>Monthly EMI: <span id="monthly-payment">-</span></p>
+    <p>Total Interest: <span id="total-interest">-</span></p>
+    <p>Total Amount: <span id="total-amount">-</span></p>
+    <div class="apni-chart">
+      <canvas id="loanChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let loanChart;
+  
+  function calculateLoan() {
+    const principal = parseFloat(document.getElementById('loan-amount').value);
+    const rate = parseFloat(document.getElementById('interest-rate').value);
+    const years = parseFloat(document.getElementById('loan-term').value);
+    
+    if (isNaN(principal) || isNaN(rate) || isNaN(years)) {
+      alert('Please enter valid numbers');
+      return;
+    }
+    
+    const monthlyRate = rate / 12 / 100;
+    const months = years * 12;
+    
+    // Calculate EMI using formula: P * r * (1+r)^n / ((1+r)^n - 1)
+    const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+    const totalPayment = emi * months;
+    const totalInterest = totalPayment - principal;
+    
+    document.getElementById('monthly-payment').textContent = '₹' + emi.toFixed(2);
+    document.getElementById('total-interest').textContent = '₹' + totalInterest.toFixed(2);
+    document.getElementById('total-amount').textContent = '₹' + totalPayment.toFixed(2);
+    
+    // Update the chart
+    updateChart(principal, totalInterest);
+  }
+  
+  function updateChart(principal, interest) {
+    // Destroy previous chart if it exists
+    if (loanChart) {
+      loanChart.destroy();
+    }
+    
+    const ctx = document.getElementById('loanChart').getContext('2d');
+    loanChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Principal Amount', 'Interest Amount'],
+        datasets: [{
+          data: [principal, interest],
+          backgroundColor: ['#36A2EB', '#FF6384'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          },
+          title: {
+            display: true,
+            text: 'Loan Payment Breakdown',
+            color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+          }
+        }
+      }
+    });
+  }
+</script>
+<%- include('partials/footer') %>

@@ -1,0 +1,122 @@
+<%- include('partials/header') %>
+<section class="apni-section">
+  <h2>Compound Interest Calculator</h2>
+  <div class="apni-widget">
+    <input type="number" id="principal" placeholder="Principal Amount (₹)" class="apni-input">
+    <input type="number" id="interest-rate" placeholder="Annual Interest Rate (%)" class="apni-input">
+    <input type="number" id="time" placeholder="Time Period (Years)" class="apni-input">
+    <select id="compound-frequency" class="apni-input">
+      <option value="1">Annually</option>
+      <option value="2">Semi-Annually</option>
+      <option value="4">Quarterly</option>
+      <option value="12">Monthly</option>
+      <option value="365">Daily</option>
+    </select>
+    <button onclick="calculateCompoundInterest()" class="apni-btn">Calculate</button>
+    <p>Final Amount: <span id="final-amount">-</span></p>
+    <p>Total Interest: <span id="total-interest">-</span></p>
+    <div class="apni-chart">
+      <canvas id="growthChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let growthChart;
+  
+  function calculateCompoundInterest() {
+    const principal = parseFloat(document.getElementById('principal').value);
+    const rate = parseFloat(document.getElementById('interest-rate').value);
+    const time = parseFloat(document.getElementById('time').value);
+    const compoundFrequency = parseInt(document.getElementById('compound-frequency').value);
+    
+    if (isNaN(principal) || isNaN(rate) || isNaN(time)) {
+      alert('Please enter valid numbers');
+      return;
+    }
+    
+    // Calculate compound interest
+    const finalAmount = principal * Math.pow(1 + (rate / (100 * compoundFrequency)), compoundFrequency * time);
+    const totalInterest = finalAmount - principal;
+    
+    document.getElementById('final-amount').textContent = '₹' + finalAmount.toFixed(2);
+    document.getElementById('total-interest').textContent = '₹' + totalInterest.toFixed(2);
+    
+    // Update the chart
+    updateChart(principal, time, rate, compoundFrequency);
+  }
+  
+  function updateChart(principal, years, rate, compoundFrequency) {
+    // Destroy previous chart if it exists
+    if (growthChart) {
+      growthChart.destroy();
+    }
+    
+    const labels = [];
+    const principalData = [];
+    const interestData = [];
+    
+    // Generate data for each year
+    for (let i = 0; i <= years; i++) {
+      labels.push('Year ' + i);
+      principalData.push(principal);
+      
+      const amount = principal * Math.pow(1 + (rate / (100 * compoundFrequency)), compoundFrequency * i);
+      interestData.push(amount - principal);
+    }
+    
+    const ctx = document.getElementById('growthChart').getContext('2d');
+    growthChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Principal',
+            data: principalData,
+            backgroundColor: '#36A2EB',
+            borderWidth: 1
+          },
+          {
+            label: 'Interest',
+            data: interestData,
+            backgroundColor: '#FF6384',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            stacked: true,
+            ticks: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          },
+          y: {
+            stacked: true,
+            ticks: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          },
+          title: {
+            display: true,
+            text: 'Growth Over Time',
+            color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+          }
+        }
+      }
+    });
+  }
+</script>
+<%- include('partials/footer') %> 

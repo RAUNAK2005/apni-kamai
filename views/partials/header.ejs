@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apni Kamai</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="apni-header">
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <h1 class="apni-title">Apni Kamai</h1>
+    <nav class="apni-nav" id="mainNav">
+      <button class="mobile-menu-btn close-btn" id="closeMenuBtn">
+        <i class="fas fa-times"></i>
+      </button>
+      <a href="/home" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Home</a>
+      <a href="/calculators" class="<%= typeof activePage !== 'undefined' && activePage === 'calculators' ? 'active' : '' %>">Calculators</a>
+      <a href="/dashboard" class="<%= typeof activePage !== 'undefined' && activePage === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+      <a href="/guidance" class="<%= typeof activePage !== 'undefined' && activePage === 'guidance' ? 'active' : '' %>">Guidance</a>
+      <% if (typeof session !== 'undefined' && session.isAuthenticated) { %>
+        <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      <% } else { %>
+        <a href="/signup" class="<%= typeof activePage !== 'undefined' && activePage === 'signup' ? 'active' : '' %>">Sign Up</a>
+        <a href="/login" class="<%= typeof activePage !== 'undefined' && activePage === 'login' ? 'active' : '' %>">Login</a>
+      <% } %>
+      <button id="dark-mode-toggle" aria-label="Toggle Dark Mode">🌙</button>
+    </nav>
+  </header>
+  <main class="apni-main">
+    <% if (typeof session !== 'undefined' && session.isAuthenticated) { %>
+      <div class="user-welcome-tag">
+        Welcome, <span class="username"><%= session.username %></span>!
+      </div>
+    <% } %>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const closeMenuBtn = document.getElementById('closeMenuBtn');
+      const mainNav = document.getElementById('mainNav');
+
+      mobileMenuBtn.addEventListener('click', function() {
+        mainNav.classList.add('active');
+      });
+
+      closeMenuBtn.addEventListener('click', function() {
+        mainNav.classList.remove('active');
+      });
+
+      // Close menu when clicking on a nav link
+      const navLinks = mainNav.querySelectorAll('a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          mainNav.classList.remove('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "apni-kamai",
+  "version": "1.0.0",
+  "description": "A comprehensive finance calculator website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.12.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.1",
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "raunak baweja",
+  "license": "ISC"
+}

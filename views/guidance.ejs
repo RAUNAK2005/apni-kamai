@@ -1,0 +1,290 @@
+<%- include('partials/header') %>
+<section class="apni-section guidance-section">
+  <h2>Financial Guidance</h2>
+  
+  <div class="guidance-intro">
+    <p>Discover personalized financial advice and strategies to achieve your financial goals and secure your future.</p>
+  </div>
+  
+  <!-- Financial Goal Setting -->
+  <div class="guidance-container">
+    <div class="guidance-card">
+      <div class="guidance-icon">
+        <i class="fas fa-bullseye"></i>
+      </div>
+      <h3>Set Clear Financial Goals</h3>
+      <div class="guidance-content">
+        <p>Setting specific, measurable, achievable, relevant, and time-bound (SMART) financial goals is the first step toward financial freedom.</p>
+        <div class="guidance-tips">
+          <div class="tip-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Define short-term goals (within 1 year)</span>
+          </div>
+          <div class="tip-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Establish medium-term goals (1-5 years)</span>
+          </div>
+          <div class="tip-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Plan for long-term goals (5+ years)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="guidance-card">
+      <div class="guidance-icon">
+        <i class="fas fa-piggy-bank"></i>
+      </div>
+      <h3>Build an Emergency Fund</h3>
+      <div class="guidance-content">
+        <p>An emergency fund acts as a financial buffer that can keep you afloat in case of unexpected expenses or income loss.</p>
+        <div class="emergency-calculator">
+          <h4>Emergency Fund Calculator</h4>
+          <div class="calculator-inputs">
+            <div class="form-group">
+              <label for="monthly-expenses">Monthly Expenses (₹)</label>
+              <input type="number" id="monthly-expenses" class="apni-input" placeholder="Enter your monthly expenses">
+            </div>
+            <div class="form-group">
+              <label for="months-needed">Months of Coverage</label>
+              <select id="months-needed" class="apni-input">
+                <option value="3">3 months (minimum)</option>
+                <option value="6" selected>6 months (recommended)</option>
+                <option value="9">9 months (conservative)</option>
+                <option value="12">12 months (maximum security)</option>
+              </select>
+            </div>
+          </div>
+          <button onclick="calculateEmergencyFund()" class="apni-btn">Calculate</button>
+          <div class="result">
+            <p>Recommended emergency fund: <span id="emergency-fund-result">-</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Investment Strategies -->
+  <div class="guidance-container">
+    <div class="guidance-card">
+      <div class="guidance-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <h3>Investment Strategies</h3>
+      <div class="guidance-content">
+        <p>A balanced investment approach helps you grow your wealth while managing risk appropriately for your goals and timeline.</p>
+        
+        <div class="strategy-tabs">
+          <div class="tab-buttons">
+            <button class="tab-btn active" onclick="showStrategy(0)">Conservative</button>
+            <button class="tab-btn" onclick="showStrategy(1)">Balanced</button>
+            <button class="tab-btn" onclick="showStrategy(2)">Aggressive</button>
+          </div>
+          
+          <div class="tab-content">
+            <div class="strategy-content active" id="strategy-0">
+              <h4>Conservative Strategy</h4>
+              <p>Focused on capital preservation with modest growth. Suitable for short-term goals or retirement planning.</p>
+              <div class="strategy-allocation">
+                <canvas id="conservativeChart"></canvas>
+              </div>
+              <ul class="strategy-points">
+                <li><strong>Fixed Deposits:</strong> 40% - Stable returns with minimal risk</li>
+                <li><strong>Govt. Bonds:</strong> 25% - Security with modest interest</li>
+                <li><strong>Debt Mutual Funds:</strong> 20% - Better returns than FDs with moderate risk</li>
+                <li><strong>Equity:</strong> 10% - Limited exposure to market volatility</li>
+                <li><strong>Gold:</strong> 5% - Hedge against inflation</li>
+              </ul>
+            </div>
+            
+            <div class="strategy-content" id="strategy-1">
+              <h4>Balanced Strategy</h4>
+              <p>Balances growth and security. Suitable for medium-term goals (5-10 years).</p>
+              <div class="strategy-allocation">
+                <canvas id="balancedChart"></canvas>
+              </div>
+              <ul class="strategy-points">
+                <li><strong>Equity Mutual Funds:</strong> 40% - Growth potential with managed risk</li>
+                <li><strong>Debt Funds:</strong> 30% - Stability and regular income</li>
+                <li><strong>Fixed Deposits:</strong> 15% - Security and liquidity</li>
+                <li><strong>Real Estate/REITs:</strong> 10% - Diversification and potential appreciation</li>
+                <li><strong>Gold:</strong> 5% - Inflation hedge</li>
+              </ul>
+            </div>
+            
+            <div class="strategy-content" id="strategy-2">
+              <h4>Aggressive Strategy</h4>
+              <p>Maximizing growth with higher risk tolerance. Suitable for long-term goals (10+ years).</p>
+              <div class="strategy-allocation">
+                <canvas id="aggressiveChart"></canvas>
+              </div>
+              <ul class="strategy-points">
+                <li><strong>Equity Mutual Funds:</strong> 65% - High growth potential</li>
+                <li><strong>International Equity:</strong> 15% - Geographic diversification</li>
+                <li><strong>Small/Mid Cap Stocks:</strong> 10% - Higher growth potential with higher volatility</li>
+                <li><strong>Debt Funds:</strong> 7% - Some stability in the portfolio</li>
+                <li><strong>Alternative Investments:</strong> 3% - Potential for uncorrelated returns</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Financial Tips -->
+  <div class="guidance-tips-section">
+    <h3>Essential Financial Tips</h3>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <i class="fas fa-money-bill-wave"></i>
+        <h4>50/30/20 Rule</h4>
+        <p>Allocate 50% of income to needs, 30% to wants, and 20% to savings and debt repayment.</p>
+      </div>
+      
+      <div class="tip-card">
+        <i class="fas fa-heartbeat"></i>
+        <h4>Adequate Insurance</h4>
+        <p>Ensure you have health, life, and property insurance to protect against unexpected events.</p>
+      </div>
+      
+      <div class="tip-card">
+        <i class="fas fa-university"></i>
+        <h4>Debt Management</h4>
+        <p>Focus on high-interest debt first while making minimum payments on other debts.</p>
+      </div>
+      
+      <div class="tip-card">
+        <i class="fas fa-graduation-cap"></i>
+        <h4>Financial Education</h4>
+        <p>Continuously improve your financial literacy through books, courses, and reliable resources.</p>
+      </div>
+      
+      <div class="tip-card">
+        <i class="fas fa-chart-pie"></i>
+        <h4>Diversification</h4>
+        <p>Spread investments across different asset classes to reduce risk and increase stability.</p>
+      </div>
+      
+      <div class="tip-card">
+        <i class="fas fa-hand-holding-usd"></i>
+        <h4>Regular Review</h4>
+        <p>Review your financial plan quarterly and adjust as needed to stay on track with your goals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize investment strategy charts
+    createStrategyCharts();
+  });
+  
+  function calculateEmergencyFund() {
+    const monthlyExpenses = parseFloat(document.getElementById('monthly-expenses').value);
+    const monthsNeeded = parseInt(document.getElementById('months-needed').value);
+    
+    if (isNaN(monthlyExpenses)) {
+      alert('Please enter valid monthly expenses');
+      return;
+    }
+    
+    const emergencyFund = monthlyExpenses * monthsNeeded;
+    document.getElementById('emergency-fund-result').textContent = '₹' + emergencyFund.toLocaleString('en-IN');
+  }
+  
+  function showStrategy(index) {
+    // Update tab buttons
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach((btn, i) => {
+      btn.classList.toggle('active', i === index);
+    });
+    
+    // Update content visibility
+    const contents = document.querySelectorAll('.strategy-content');
+    contents.forEach((content, i) => {
+      content.classList.toggle('active', i === index);
+    });
+  }
+  
+  function createStrategyCharts() {
+    // Conservative Strategy Chart
+    const conservativeCtx = document.getElementById('conservativeChart').getContext('2d');
+    const conservativeChart = new Chart(conservativeCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Fixed Deposits', 'Govt. Bonds', 'Debt Mutual Funds', 'Equity', 'Gold'],
+        datasets: [{
+          data: [40, 25, 20, 10, 5],
+          backgroundColor: ['#4BC0C0', '#36A2EB', '#9966FF', '#FF6384', '#FFCE56'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          }
+        }
+      }
+    });
+    
+    // Balanced Strategy Chart
+    const balancedCtx = document.getElementById('balancedChart').getContext('2d');
+    const balancedChart = new Chart(balancedCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Equity Mutual Funds', 'Debt Funds', 'Fixed Deposits', 'Real Estate/REITs', 'Gold'],
+        datasets: [{
+          data: [40, 30, 15, 10, 5],
+          backgroundColor: ['#FF6384', '#9966FF', '#4BC0C0', '#FF9F40', '#FFCE56'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          }
+        }
+      }
+    });
+    
+    // Aggressive Strategy Chart
+    const aggressiveCtx = document.getElementById('aggressiveChart').getContext('2d');
+    const aggressiveChart = new Chart(aggressiveCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Equity Mutual Funds', 'International Equity', 'Small/Mid Cap Stocks', 'Debt Funds', 'Alternative Investments'],
+        datasets: [{
+          data: [65, 15, 10, 7, 3],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FF9F40', '#9966FF', '#FFCE56'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          }
+        }
+      }
+    });
+  }
+</script>
+<%- include('partials/footer') %>

@@ -1,0 +1,80 @@
+<%- include('partials/header') %>
+<section class="apni-section">
+  <h2>Mutual Fund Calculator</h2>
+  <div class="apni-widget">
+    <input type="number" id="mf-amount" placeholder="Amount (₹)" class="apni-input">
+    <input type="number" id="mf-rate" placeholder="Rate (%)" class="apni-input">
+    <input type="number" id="mf-term" placeholder="Term (Years)" class="apni-input">
+    <button onclick="calculateMF()" class="apni-btn">Calculate</button>
+    <p>Invested: <span id="mf-invested">-</span></p>
+    <p>Growth: <span id="mf-growth">-</span></p>
+    <p>Total: <span id="mf-total">-</span></p>
+    <div class="apni-chart">
+      <canvas id="mfChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let mfChart;
+  
+  function calculateMF() {
+    const principal = parseFloat(document.getElementById('mf-amount').value);
+    const rate = parseFloat(document.getElementById('mf-rate').value);
+    const years = parseFloat(document.getElementById('mf-term').value);
+    
+    if (isNaN(principal) || isNaN(rate) || isNaN(years)) {
+      alert('Please enter valid numbers');
+      return;
+    }
+    
+    // Calculate future value using compound interest formula
+    const futureValue = principal * Math.pow(1 + (rate / 100), years);
+    const growth = futureValue - principal;
+    
+    document.getElementById('mf-invested').textContent = '₹' + principal.toFixed(2);
+    document.getElementById('mf-growth').textContent = '₹' + growth.toFixed(2);
+    document.getElementById('mf-total').textContent = '₹' + futureValue.toFixed(2);
+    
+    // Update the chart
+    updateChart(principal, growth);
+  }
+  
+  function updateChart(principal, growth) {
+    // Destroy previous chart if it exists
+    if (mfChart) {
+      mfChart.destroy();
+    }
+    
+    const ctx = document.getElementById('mfChart').getContext('2d');
+    mfChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Principal Amount', 'Growth Value'],
+        datasets: [{
+          data: [principal, growth],
+          backgroundColor: ['#4BC0C0', '#FF6384'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          },
+          title: {
+            display: true,
+            text: 'Mutual Fund Investment Breakdown',
+            color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+          }
+        }
+      }
+    });
+  }
+</script>
+<%- include('partials/footer') %>

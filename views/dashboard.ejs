@@ -1,0 +1,525 @@
+<%- include('partials/header') %>
+<section class="apni-dashboard">
+  <h2>Your Financial Dashboard</h2>
+  
+  <!-- Financial Input Form -->
+  <div class="dashboard-input-form">
+    <div class="apni-widget">
+      <h3>Update Your Financial Data</h3>
+      <form id="financial-form" class="financial-form">
+        <div class="input-row">
+          <div class="form-group">
+            <label for="total-assets">Total Assets (₹)</label>
+            <input type="number" id="total-assets" class="apni-input" placeholder="e.g., 1000000">
+          </div>
+          <div class="form-group">
+            <label for="total-liabilities">Total Liabilities (₹)</label>
+            <input type="number" id="total-liabilities" class="apni-input" placeholder="e.g., 200000">
+          </div>
+        </div>
+        
+        <h4>Investments</h4>
+        <div class="input-row">
+          <div class="form-group">
+            <label for="stocks-value">Stocks (₹)</label>
+            <input type="number" id="stocks-value" class="apni-input investment-input" placeholder="e.g., 100000">
+          </div>
+          <div class="form-group">
+            <label for="mutual-funds-value">Mutual Funds (₹)</label>
+            <input type="number" id="mutual-funds-value" class="apni-input investment-input" placeholder="e.g., 100000">
+          </div>
+          <div class="form-group">
+            <label for="fd-value">Fixed Deposits (₹)</label>
+            <input type="number" id="fd-value" class="apni-input investment-input" placeholder="e.g., 100000">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label for="gold-value">Gold (₹)</label>
+            <input type="number" id="gold-value" class="apni-input investment-input" placeholder="e.g., 50000">
+          </div>
+          <div class="form-group">
+            <label for="real-estate-value">Real Estate (₹)</label>
+            <input type="number" id="real-estate-value" class="apni-input investment-input" placeholder="e.g., 500000">
+          </div>
+        </div>
+        
+        <h4>Monthly Budget</h4>
+        <div class="input-row">
+          <div class="form-group">
+            <label for="housing-budget">Housing (₹)</label>
+            <input type="number" id="housing-budget" class="apni-input budget-input" placeholder="e.g., 25000">
+          </div>
+          <div class="form-group">
+            <label for="food-budget">Food (₹)</label>
+            <input type="number" id="food-budget" class="apni-input budget-input" placeholder="e.g., 10000">
+          </div>
+          <div class="form-group">
+            <label for="transport-budget">Transport (₹)</label>
+            <input type="number" id="transport-budget" class="apni-input budget-input" placeholder="e.g., 5000">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label for="entertainment-budget">Entertainment (₹)</label>
+            <input type="number" id="entertainment-budget" class="apni-input budget-input" placeholder="e.g., 3000">
+          </div>
+          <div class="form-group">
+            <label for="utilities-budget">Utilities (₹)</label>
+            <input type="number" id="utilities-budget" class="apni-input budget-input" placeholder="e.g., 4500">
+          </div>
+          <div class="form-group">
+            <label for="savings-budget">Savings (₹)</label>
+            <input type="number" id="savings-budget" class="apni-input budget-input" placeholder="e.g., 25000">
+          </div>
+        </div>
+        
+        <h4>Actual Spending (This Month)</h4>
+        <div class="input-row">
+          <div class="form-group">
+            <label for="housing-actual">Housing (₹)</label>
+            <input type="number" id="housing-actual" class="apni-input actual-input" placeholder="e.g., 25000">
+          </div>
+          <div class="form-group">
+            <label for="food-actual">Food (₹)</label>
+            <input type="number" id="food-actual" class="apni-input actual-input" placeholder="e.g., 12000">
+          </div>
+          <div class="form-group">
+            <label for="transport-actual">Transport (₹)</label>
+            <input type="number" id="transport-actual" class="apni-input actual-input" placeholder="e.g., 4500">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label for="entertainment-actual">Entertainment (₹)</label>
+            <input type="number" id="entertainment-actual" class="apni-input actual-input" placeholder="e.g., 5000">
+          </div>
+          <div class="form-group">
+            <label for="utilities-actual">Utilities (₹)</label>
+            <input type="number" id="utilities-actual" class="apni-input actual-input" placeholder="e.g., 4000">
+          </div>
+          <div class="form-group">
+            <label for="savings-actual">Savings (₹)</label>
+            <input type="number" id="savings-actual" class="apni-input actual-input" placeholder="e.g., 22000">
+          </div>
+        </div>
+        
+        <button type="button" id="update-dashboard" class="apni-btn">Update Dashboard</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Financial Summary -->
+  <div class="dashboard-summary">
+    <div class="summary-card">
+      <div class="summary-icon">
+        <i class="fas fa-wallet"></i>
+      </div>
+      <div class="summary-content">
+        <h3>Net Worth</h3>
+        <p class="summary-value" id="net-worth-value">₹0</p>
+        <p class="summary-change" id="net-worth-change">0% <span>since last update</span></p>
+      </div>
+    </div>
+    
+    <div class="summary-card">
+      <div class="summary-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="summary-content">
+        <h3>Investments</h3>
+        <p class="summary-value" id="investments-value">₹0</p>
+        <p class="summary-change" id="investments-change">0% <span>since last update</span></p>
+      </div>
+    </div>
+    
+    <div class="summary-card">
+      <div class="summary-icon">
+        <i class="fas fa-hand-holding-usd"></i>
+      </div>
+      <div class="summary-content">
+        <h3>Monthly Savings</h3>
+        <p class="summary-value" id="savings-value">₹0</p>
+        <p class="summary-change" id="savings-change">0% <span>since last update</span></p>
+      </div>
+    </div>
+    
+    <div class="summary-card">
+      <div class="summary-icon">
+        <i class="fas fa-credit-card"></i>
+      </div>
+      <div class="summary-content">
+        <h3>Total Expenses</h3>
+        <p class="summary-value" id="expenses-value">₹0</p>
+        <p class="summary-change" id="expenses-change">0% <span>since last update</span></p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Charts and Analysis -->
+  <div class="dashboard-charts">
+    <div class="chart-widget">
+      <h3>Asset Allocation</h3>
+      <div class="asset-chart-container">
+        <canvas id="assetAllocationChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-widget">
+      <h3>Monthly Budget</h3>
+      <div class="budget-chart-container">
+        <canvas id="budgetChart"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Actions -->
+  <div class="dashboard-actions">
+    <h3>Quick Actions</h3>
+    <div class="action-buttons">
+      <a href="/calculators" class="action-btn">
+        <i class="fas fa-calculator"></i>
+        <span>Financial Calculators</span>
+      </a>
+      <a href="#" class="action-btn">
+        <i class="fas fa-plus-circle"></i>
+        <span>Add New Investment</span>
+      </a>
+      <a href="#" class="action-btn">
+        <i class="fas fa-file-invoice"></i>
+        <span>Budget Planner</span>
+      </a>
+      <a href="/guidance" class="action-btn">
+        <i class="fas fa-chart-pie"></i>
+        <span>Investment Guidance</span>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Rancho AI Assistant -->
+  <div class="dashboard-assistant">
+    <div class="apni-widget">
+      <h3>Ask Rancho</h3>
+      <div class="apni-search-bar">
+        <input type="text" id="rancho-input" placeholder="Ask Rancho about your finances...">
+        <button onclick="askRancho()" class="apni-btn">Ask</button>
+      </div>
+      <div id="rancho-response" class="apni-response"></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let assetChart;
+  let budgetChart;
+  let previousValues = {
+    netWorth: 0,
+    investments: 0,
+    savings: 0,
+    expenses: 0
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize empty charts
+    initializeCharts();
+    
+    // Load previously saved data if available
+    loadSavedData();
+    
+    // Set up event listener for form submission
+    document.getElementById('update-dashboard').addEventListener('click', updateDashboard);
+  });
+  
+  function initializeCharts() {
+    const assetCtx = document.getElementById('assetAllocationChart').getContext('2d');
+    assetChart = new Chart(assetCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Stocks', 'Mutual Funds', 'Fixed Deposits', 'Gold', 'Real Estate'],
+        datasets: [{
+          data: [0, 0, 0, 0, 0],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          },
+          title: {
+            display: true,
+            text: 'Your Investment Portfolio',
+            color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+          }
+        }
+      }
+    });
+    
+    const budgetCtx = document.getElementById('budgetChart').getContext('2d');
+    budgetChart = new Chart(budgetCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Housing', 'Food', 'Transportation', 'Entertainment', 'Utilities', 'Savings'],
+        datasets: [{
+          label: 'Budget',
+          data: [0, 0, 0, 0, 0, 0],
+          backgroundColor: '#36A2EB',
+          borderWidth: 1
+        }, {
+          label: 'Actual',
+          data: [0, 0, 0, 0, 0, 0],
+          backgroundColor: '#FF6384',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            ticks: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          },
+          y: {
+            ticks: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+            }
+          },
+          title: {
+            display: true,
+            text: 'Monthly Budget vs Actual',
+            color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
+          }
+        }
+      }
+    });
+  }
+  
+  function loadSavedData() {
+    // Check for saved data in localStorage
+    const savedData = localStorage.getItem('apniKamai_dashboardData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      
+      // Fill form with saved data
+      fillFormWithData(data);
+      
+      // Update dashboard with saved data
+      updateDashboardDisplay(data);
+      
+      // Save previous values for change calculation
+      previousValues = {
+        netWorth: data.totalAssets - data.totalLiabilities,
+        investments: data.investments.reduce((sum, val) => sum + val, 0),
+        savings: data.budgetActual[5] || 0,
+        expenses: data.budgetActual.slice(0, 5).reduce((sum, val) => sum + val, 0)
+      };
+    }
+  }
+  
+  function fillFormWithData(data) {
+    // Assets and liabilities
+    document.getElementById('total-assets').value = data.totalAssets || '';
+    document.getElementById('total-liabilities').value = data.totalLiabilities || '';
+    
+    // Investments
+    const investments = ['stocks-value', 'mutual-funds-value', 'fd-value', 'gold-value', 'real-estate-value'];
+    investments.forEach((id, index) => {
+      if (data.investments && data.investments[index] !== undefined) {
+        document.getElementById(id).value = data.investments[index];
+      }
+    });
+    
+    // Budget
+    const budgetIds = ['housing-budget', 'food-budget', 'transport-budget', 'entertainment-budget', 'utilities-budget', 'savings-budget'];
+    budgetIds.forEach((id, index) => {
+      if (data.budgetPlanned && data.budgetPlanned[index] !== undefined) {
+        document.getElementById(id).value = data.budgetPlanned[index];
+      }
+    });
+    
+    // Actual spending
+    const actualIds = ['housing-actual', 'food-actual', 'transport-actual', 'entertainment-actual', 'utilities-actual', 'savings-actual'];
+    actualIds.forEach((id, index) => {
+      if (data.budgetActual && data.budgetActual[index] !== undefined) {
+        document.getElementById(id).value = data.budgetActual[index];
+      }
+    });
+  }
+  
+  function updateDashboard() {
+    // Collect all data from form
+    const data = collectFormData();
+    
+    // Save data to localStorage
+    localStorage.setItem('apniKamai_dashboardData', JSON.stringify(data));
+    
+    // Update dashboard display
+    updateDashboardDisplay(data);
+    
+    // Calculate and update change percentages
+    updateChangePercentages(data);
+    
+    // Save current values for next update
+    previousValues = {
+      netWorth: data.totalAssets - data.totalLiabilities,
+      investments: data.investments.reduce((sum, val) => sum + val, 0),
+      savings: data.budgetActual[5] || 0,
+      expenses: data.budgetActual.slice(0, 5).reduce((sum, val) => sum + val, 0)
+    };
+    
+    // Show success message
+    alert('Dashboard updated successfully!');
+  }
+  
+  function collectFormData() {
+    // Assets and liabilities
+    const totalAssets = parseFloat(document.getElementById('total-assets').value) || 0;
+    const totalLiabilities = parseFloat(document.getElementById('total-liabilities').value) || 0;
+    
+    // Investments
+    const investments = [
+      parseFloat(document.getElementById('stocks-value').value) || 0,
+      parseFloat(document.getElementById('mutual-funds-value').value) || 0,
+      parseFloat(document.getElementById('fd-value').value) || 0,
+      parseFloat(document.getElementById('gold-value').value) || 0,
+      parseFloat(document.getElementById('real-estate-value').value) || 0
+    ];
+    
+    // Budget planned
+    const budgetPlanned = [
+      parseFloat(document.getElementById('housing-budget').value) || 0,
+      parseFloat(document.getElementById('food-budget').value) || 0,
+      parseFloat(document.getElementById('transport-budget').value) || 0,
+      parseFloat(document.getElementById('entertainment-budget').value) || 0,
+      parseFloat(document.getElementById('utilities-budget').value) || 0,
+      parseFloat(document.getElementById('savings-budget').value) || 0
+    ];
+    
+    // Actual spending
+    const budgetActual = [
+      parseFloat(document.getElementById('housing-actual').value) || 0,
+      parseFloat(document.getElementById('food-actual').value) || 0,
+      parseFloat(document.getElementById('transport-actual').value) || 0,
+      parseFloat(document.getElementById('entertainment-actual').value) || 0,
+      parseFloat(document.getElementById('utilities-actual').value) || 0,
+      parseFloat(document.getElementById('savings-actual').value) || 0
+    ];
+    
+    return {
+      totalAssets,
+      totalLiabilities,
+      investments,
+      budgetPlanned,
+      budgetActual
+    };
+  }
+  
+  function updateDashboardDisplay(data) {
+    // Calculate derived values
+    const netWorth = data.totalAssets - data.totalLiabilities;
+    const totalInvestments = data.investments.reduce((sum, val) => sum + val, 0);
+    const monthlySavings = data.budgetActual[5] || 0;
+    const totalExpenses = data.budgetActual.slice(0, 5).reduce((sum, val) => sum + val, 0);
+    
+    // Update summary cards
+    document.getElementById('net-worth-value').textContent = '₹' + netWorth.toLocaleString('en-IN');
+    document.getElementById('investments-value').textContent = '₹' + totalInvestments.toLocaleString('en-IN');
+    document.getElementById('savings-value').textContent = '₹' + monthlySavings.toLocaleString('en-IN');
+    document.getElementById('expenses-value').textContent = '₹' + totalExpenses.toLocaleString('en-IN');
+    
+    // Update asset allocation chart
+    assetChart.data.datasets[0].data = data.investments;
+    assetChart.update();
+    
+    // Update budget chart
+    budgetChart.data.datasets[0].data = data.budgetPlanned;
+    budgetChart.data.datasets[1].data = data.budgetActual;
+    budgetChart.update();
+  }
+  
+  function updateChangePercentages(data) {
+    // Calculate current values
+    const netWorth = data.totalAssets - data.totalLiabilities;
+    const totalInvestments = data.investments.reduce((sum, val) => sum + val, 0);
+    const monthlySavings = data.budgetActual[5] || 0;
+    const totalExpenses = data.budgetActual.slice(0, 5).reduce((sum, val) => sum + val, 0);
+    
+    // Calculate percentage changes
+    const netWorthChange = calculatePercentageChange(previousValues.netWorth, netWorth);
+    const investmentsChange = calculatePercentageChange(previousValues.investments, totalInvestments);
+    const savingsChange = calculatePercentageChange(previousValues.savings, monthlySavings);
+    const expensesChange = calculatePercentageChange(previousValues.expenses, totalExpenses);
+    
+    // Update UI with percentage changes
+    updateChangeElement('net-worth-change', netWorthChange);
+    updateChangeElement('investments-change', investmentsChange);
+    updateChangeElement('savings-change', savingsChange);
+    updateChangeElement('expenses-change', expensesChange, true); // For expenses, positive is bad
+  }
+  
+  function calculatePercentageChange(previous, current) {
+    if (previous === 0) return 0;
+    return ((current - previous) / Math.abs(previous)) * 100;
+  }
+  
+  function updateChangeElement(elementId, changePercent, invertColor = false) {
+    const element = document.getElementById(elementId);
+    
+    // Format the percentage and determine class
+    const formattedChange = (changePercent >= 0 ? '+' : '') + changePercent.toFixed(1) + '%';
+    
+    // Set text content
+    element.textContent = formattedChange + ' ';
+    
+    // Add span element back
+    const span = document.createElement('span');
+    span.textContent = 'since last update';
+    element.appendChild(span);
+    
+    // Add appropriate class
+    if (changePercent > 0) {
+      element.className = 'summary-change ' + (invertColor ? 'negative' : 'positive');
+    } else if (changePercent < 0) {
+      element.className = 'summary-change ' + (invertColor ? 'positive' : 'negative');
+    } else {
+      element.className = 'summary-change';
+    }
+  }
+
+  // Rancho AI functionality
+  function askRancho() {
+    const input = document.getElementById('rancho-input').value;
+    if (!input) return;
+    
+    document.getElementById('rancho-response').innerHTML = 'Thinking...';
+    
+    fetch('/rancho', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: input })
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('rancho-response').innerHTML = data.reply;
+    })
+    .catch(err => {
+      document.getElementById('rancho-response').innerHTML = 'Sorry, I had trouble with that request.';
+    });
+  }
+</script>
+<%- include('partials/footer') %>
