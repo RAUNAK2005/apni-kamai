@@ -1,84 +1,485 @@
 <%- include('partials/header') %>
-<section class="apni-section">
-  <h2>Loan Calculator</h2>
-  <div class="apni-widget">
-    <input type="number" id="loan-amount" placeholder="Amount (₹)" class="apni-input">
-    <input type="number" id="interest-rate" placeholder="Rate (%)" class="apni-input">
-    <input type="number" id="loan-term" placeholder="Term (Years)" class="apni-input">
-    <button onclick="calculateLoan()" class="apni-btn">Calculate</button>
-    <p>Monthly EMI: <span id="monthly-payment">-</span></p>
-    <p>Total Interest: <span id="total-interest">-</span></p>
-    <p>Total Amount: <span id="total-amount">-</span></p>
-    <div class="apni-chart">
-      <canvas id="loanChart"></canvas>
+
+<div class="calculator-section">
+  <h2 class="calculator-title">Loan Calculator</h2>
+  
+  <div class="calculator-container">
+    <div class="input-group">
+      <label for="loan-amount">Loan Amount</label>
+      <div class="input-with-icon">
+        <i class="fas fa-rupee-sign"></i>
+        <input type="number" id="loan-amount" placeholder="Enter loan amount" min="0" required>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="loan-rate">Interest Rate (%)</label>
+      <div class="input-with-icon">
+        <i class="fas fa-percent"></i>
+        <input type="number" id="loan-rate" placeholder="Enter interest rate" min="0" max="100" step="0.1" required>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="loan-term">Loan Period (Years)</label>
+      <div class="input-with-icon">
+        <i class="fas fa-calendar-alt"></i>
+        <input type="number" id="loan-term" placeholder="Enter years" min="1" required>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button id="calculateBtn" class="calculate-btn">
+        <i class="fas fa-calculator"></i> Calculate
+      </button>
+      <button id="resetBtn" class="reset-btn">
+        <i class="fas fa-redo"></i> Reset
+      </button>
+    </div>
+
+    <div id="resultSection" class="result-section" style="display: none;">
+      <div class="results-chart-container">
+        <div class="results-container">
+          <div class="result-grid">
+            <div class="result-card animate-up">
+              <h3>Monthly EMI</h3>
+              <p id="loan-emi" class="result-value">₹0</p>
+            </div>
+            <div class="result-card animate-up" style="animation-delay: 0.2s;">
+              <h3>Total Interest</h3>
+              <p id="loan-interest" class="result-value">₹0</p>
+            </div>
+            <div class="result-card highlight animate-up" style="animation-delay: 0.4s;">
+              <h3>Total Payment</h3>
+              <p id="loan-total" class="result-value highlight">₹0</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-container animate-up" style="animation-delay: 0.6s;">
+          <canvas id="loanChart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
-</section>
+</div>
+
+<style>
+.calculator-section {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.calculator-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #00ffcc, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleGlow 2s ease-in-out infinite;
+}
+
+.calculator-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0.9;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 1rem;
+  color: #64748b;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  color: #e0e0ff;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.input-with-icon input::placeholder {
+  color: rgba(224, 224, 255, 0.8);
+}
+
+.input-with-icon input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-color: #00ffcc;
+  box-shadow: 0 0 0 2px rgba(0, 255, 204, 0.2);
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.calculate-btn, .reset-btn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.calculate-btn {
+  background: #00ffcc;
+  color: #1a1a1a;
+}
+
+.reset-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0ff;
+}
+
+.calculate-btn:hover {
+  background: #00e6b8;
+  transform: translateY(-2px);
+}
+
+.reset-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.result-section {
+  margin-top: 2rem;
+}
+
+.results-chart-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.result-card {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+}
+
+.result-card.highlight {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(29, 78, 216, 0.35));
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.result-card h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.result-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #00ffcc, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+}
+
+.result-value.highlight {
+  font-size: 1.8rem;
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.chart-container {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+  }
+}
+
+.animate-up {
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .calculator-section {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .calculator-title {
+    font-size: 2rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .results-chart-container {
+    grid-template-columns: 1fr;
+  }
+
+  .result-value.highlight {
+    font-size: 1.6rem;
+  }
+}
+
+/* Light Mode */
+body.light-mode .calculator-section {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+}
+
+body.light-mode .input-with-icon input {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #1a4b8c;
+}
+
+body.light-mode .input-with-icon input::placeholder {
+  color: rgba(26, 75, 140, 0.6);
+}
+
+body.light-mode .result-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+body.light-mode .result-card h3 {
+  color: #1a4b8c;
+}
+
+body.light-mode .result-card.highlight {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(29, 78, 216, 0.15));
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+body.light-mode .chart-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+body.light-mode .input-group label {
+  color: #1a4b8c;
+  text-shadow: none;
+  opacity: 1;
+}
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  let loanChart;
-  
-  function calculateLoan() {
-    const principal = parseFloat(document.getElementById('loan-amount').value);
-    const rate = parseFloat(document.getElementById('interest-rate').value);
-    const years = parseFloat(document.getElementById('loan-term').value);
-    
-    if (isNaN(principal) || isNaN(rate) || isNaN(years)) {
-      alert('Please enter valid numbers');
-      return;
-    }
-    
-    const monthlyRate = rate / 12 / 100;
-    const months = years * 12;
-    
-    // Calculate EMI using formula: P * r * (1+r)^n / ((1+r)^n - 1)
-    const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
-    const totalPayment = emi * months;
-    const totalInterest = totalPayment - principal;
-    
-    document.getElementById('monthly-payment').textContent = '₹' + emi.toFixed(2);
-    document.getElementById('total-interest').textContent = '₹' + totalInterest.toFixed(2);
-    document.getElementById('total-amount').textContent = '₹' + totalPayment.toFixed(2);
-    
-    // Update the chart
-    updateChart(principal, totalInterest);
-  }
-  
-  function updateChart(principal, interest) {
-    // Destroy previous chart if it exists
-    if (loanChart) {
-      loanChart.destroy();
-    }
-    
-    const ctx = document.getElementById('loanChart').getContext('2d');
-    loanChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Principal Amount', 'Interest Amount'],
-        datasets: [{
-          data: [principal, interest],
-          backgroundColor: ['#36A2EB', '#FF6384'],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'right',
-            labels: {
-              color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
-            }
-          },
-          title: {
-            display: true,
-            text: 'Loan Payment Breakdown',
-            color: document.body.classList.contains('light-mode') ? '#0a192f' : '#e0e0ff'
-          }
+let loanChart;
+
+// Direct event listener assignments
+const calculateBtn = document.getElementById('calculateBtn');
+const resetBtn = document.getElementById('resetBtn');
+const inputs = document.querySelectorAll('input');
+
+if (calculateBtn) {
+    calculateBtn.onclick = calculateLoan;
+}
+
+if (resetBtn) {
+    resetBtn.onclick = resetCalculator;
+}
+
+inputs.forEach(input => {
+    input.onkeypress = function(e) {
+        if (e.key === 'Enter') {
+            calculateLoan();
         }
-      }
+    };
+});
+
+function calculateLoan() {
+    console.log('Calculate button clicked');
+    
+    // Get input values
+    const principal = parseFloat(document.getElementById('loan-amount').value);
+    const rate = parseFloat(document.getElementById('loan-rate').value);
+    const years = parseFloat(document.getElementById('loan-term').value);
+
+    console.log('Inputs:', { principal, rate, years });
+
+    // Validate inputs
+    if (!principal || !rate || !years || principal <= 0 || rate <= 0 || years <= 0) {
+        alert('Please enter valid positive numbers');
+        return;
+    }
+
+    // Calculate
+    const monthlyRate = rate / (12 * 100);
+    const totalMonths = years * 12;
+    
+    // EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)
+    const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths) / 
+                (Math.pow(1 + monthlyRate, totalMonths) - 1);
+    
+    const totalPayment = emi * totalMonths;
+    const totalInterest = totalPayment - principal;
+
+    console.log('Calculations:', { emi, totalPayment, totalInterest });
+
+    // Format currency
+    const formatter = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
     });
-  }
+
+    // Update display
+    document.getElementById('loan-emi').textContent = formatter.format(emi);
+    document.getElementById('loan-interest').textContent = formatter.format(totalInterest);
+    document.getElementById('loan-total').textContent = formatter.format(totalPayment);
+    
+    // Show results
+    const resultSection = document.getElementById('resultSection');
+    if (resultSection) {
+        resultSection.style.display = 'block';
+    }
+    
+    // Update chart
+    updateChart(principal, totalInterest);
+}
+
+function resetCalculator() {
+    console.log('Reset button clicked');
+    
+    // Clear input fields
+    document.getElementById('loan-amount').value = '';
+    document.getElementById('loan-rate').value = '';
+    document.getElementById('loan-term').value = '';
+    
+    // Hide results
+    const resultSection = document.getElementById('resultSection');
+    if (resultSection) {
+        resultSection.style.display = 'none';
+    }
+    
+    // Clear chart
+    if (loanChart) {
+        loanChart.destroy();
+    }
+}
+
+function updateChart(principal, interest) {
+    console.log('Updating chart with:', { principal, interest });
+    
+    if (loanChart) {
+        loanChart.destroy();
+    }
+    
+    const ctx = document.getElementById('loanChart');
+    if (!ctx) {
+        console.error('Chart canvas not found');
+        return;
+    }
+    
+    loanChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Principal Amount', 'Interest Amount'],
+            datasets: [{
+                data: [principal, interest],
+                backgroundColor: ['#00ffcc', '#3b82f6'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: document.body.classList.contains('light-mode') ? '#1a4b8c' : '#e0e0ff',
+                        padding: 20,
+                        font: { size: 14 }
+                    }
+                }
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    });
+}
 </script>
+
 <%- include('partials/footer') %>

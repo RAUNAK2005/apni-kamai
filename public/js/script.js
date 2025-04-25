@@ -154,3 +154,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize animations for input groups
+    document.querySelectorAll('.input-group').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.2}s`;
+    });
+    
+    // Initialize calculator-specific elements
+    initializeCalculator();
+});
+
+function initializeCalculator() {
+    // Reset form and hide results on page load
+    resetCalculator();
+    
+    // Add event listeners for Enter key on inputs
+    document.querySelectorAll('.calculator-input').forEach(input => {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateSIP(); // Change this function name for each calculator
+            }
+        });
+    });
+}
